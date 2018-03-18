@@ -3,11 +3,11 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Set;
+
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -17,15 +17,35 @@ public class Main {
 
 	public static void main(String[] args) {
 		Main main = new Main();
-		main.printSchools();
+		main.addNewData("UJ", "ul. Zadupie 123");
+		//main.printSchools();
 		//main.jdbcTest();
 		main.close();
 	}
+
+
+	public void addNewData(String name, String adress){
+		School s = new School();
+		s.setName(name);
+		s.setAddress(adress);
+		//s.setClasses(klasa1);
+		
+		
+		
+		Transaction transaction = session.beginTransaction();
+		session.save(s); // gdzie newSchool to instancja nowej szko³y
+		transaction.commit();
+
+		
+	}
+	
 
 	public Main() {
 		session = HibernateUtil.getSessionFactory().openSession();
 	}
 
+	
+	
 	public void close() {
 		session.close();
 		HibernateUtil.shutdown();
